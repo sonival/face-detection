@@ -32,6 +32,9 @@ def main():
         return 
     know_face_encodings, know_face_names = load_images_from_folder(imagefolder)
     video_capture = cv2.VideoCapture(0)
+    if not video_capture.isOpened():
+            print("Erro ao acessar camera de video.")
+            return
 
     face_names =[]
     while True:
@@ -40,7 +43,7 @@ def main():
         rgb_smal_frame = np.ascontiguousarray(smallframe[:,:,::-1])
         face_locations = face_recognition.face_locations(rgb_smal_frame)
         face_encodings = face_recognition.face_encodings(rgb_smal_frame,face_locations)
-        face_name = []
+        face_names = []
         for face_encoding in face_encodings:
             matches = face_recognition.compare_faces(know_face_encodings, face_encoding)
             name = 'Desconhecido'
